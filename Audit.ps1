@@ -1,14 +1,14 @@
 #####################################################
-#													                          #
+#				                    #
 #    Audit script V3 by Alan Renouf - Virtu-Al      #
-#    Blog: http://virtu-al.net/			                #
-#													                          #
+#    Blog: http://virtu-al.net/	                    #
+#	     		                            #
 #    Usage: Audit.ps1 'pathtolistofservers'         #
-#													                          #
-#    The file is optional and needs to be a 		    #
-#	 plain text list of computers to be audited 	    #
-#	 one on each line, if no list is specified		    #
-#	 the local machine will be audited.				        # 
+# 			                            #
+#    The file is optional and needs to be a 	    #
+#	 plain text list of computers to be audited #
+#	 one on each line, if no list is specified  #
+#	 the local machine will be audited.         # 
 #                                                   #
 #####################################################
 
