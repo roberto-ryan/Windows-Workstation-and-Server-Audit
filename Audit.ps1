@@ -19,30 +19,278 @@ $Report = @"
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">
 <html><head><title>$($Header)</title>
 <META http-equiv=Content-Type content='text/html; charset=windows-1252'>
-
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="save" content="history">
 
 <style type="text/css">
-DIV .expando {DISPLAY: block; FONT-WEIGHT: normal; FONT-SIZE: 8pt; RIGHT: 8px; COLOR: #ffffff; FONT-FAMILY: Arial; POSITION: absolute; TEXT-DECORATION: underline}
-TABLE {TABLE-LAYOUT: fixed; FONT-SIZE: 100%; WIDTH: 100%}
-*{margin:0}
-.dspcont { display:none; BORDER-RIGHT: #B1BABF 1px solid; BORDER-TOP: #B1BABF 1px solid; PADDING-LEFT: 16px; FONT-SIZE: 8pt;MARGIN-BOTTOM: -1px; PADDING-BOTTOM: 5px; MARGIN-LEFT: 0px; BORDER-LEFT: #B1BABF 1px solid; WIDTH: 95%; COLOR: #000000; MARGIN-RIGHT: 0px; PADDING-TOP: 4px; BORDER-BOTTOM: #B1BABF 1px solid; FONT-FAMILY: Tahoma; POSITION: relative; BACKGROUND-COLOR: #f9f9f9}
-.filler {BORDER-RIGHT: medium none; BORDER-TOP: medium none; DISPLAY: block; BACKGROUND: none transparent scroll repeat 0% 0%; MARGIN-BOTTOM: -1px; FONT: 100%/8px Tahoma; MARGIN-LEFT: 43px; BORDER-LEFT: medium none; COLOR: #ffffff; MARGIN-RIGHT: 0px; PADDING-TOP: 4px; BORDER-BOTTOM: medium none; POSITION: relative}
-.save{behavior:url(#default#savehistory);}
-.dspcont1{ display:none}
-a.dsphead0 {BORDER-RIGHT: #B1BABF 1px solid; PADDING-RIGHT: 5em; BORDER-TOP: #B1BABF 1px solid; DISPLAY: block; PADDING-LEFT: 5px; FONT-WEIGHT: bold; FONT-SIZE: 8pt; MARGIN-BOTTOM: -1px; MARGIN-LEFT: 0px; BORDER-LEFT: #B1BABF 1px solid; CURSOR: hand; COLOR: #FFFFFF; MARGIN-RIGHT: 0px; PADDING-TOP: 4px; BORDER-BOTTOM: #B1BABF 1px solid; FONT-FAMILY: Tahoma; POSITION: relative; HEIGHT: 2.25em; WIDTH: 95%; BACKGROUND-COLOR: #CC0000}
-a.dsphead1 {BORDER-RIGHT: #B1BABF 1px solid; PADDING-RIGHT: 5em; BORDER-TOP: #B1BABF 1px solid; DISPLAY: block; PADDING-LEFT: 5px; FONT-WEIGHT: bold; FONT-SIZE: 8pt; MARGIN-BOTTOM: -1px; MARGIN-LEFT: 0px; BORDER-LEFT: #B1BABF 1px solid; CURSOR: hand; COLOR: #ffffff; MARGIN-RIGHT: 0px; PADDING-TOP: 4px; BORDER-BOTTOM: #B1BABF 1px solid; FONT-FAMILY: Tahoma; POSITION: relative; HEIGHT: 2.25em; WIDTH: 95%; BACKGROUND-COLOR: #7BA7C7}
-a.dsphead2 {BORDER-RIGHT: #B1BABF 1px solid; PADDING-RIGHT: 5em; BORDER-TOP: #B1BABF 1px solid; DISPLAY: block; PADDING-LEFT: 5px; FONT-WEIGHT: bold; FONT-SIZE: 8pt; MARGIN-BOTTOM: -1px; MARGIN-LEFT: 0px; BORDER-LEFT: #B1BABF 1px solid; CURSOR: hand; COLOR: #ffffff; MARGIN-RIGHT: 0px; PADDING-TOP: 4px; BORDER-BOTTOM: #B1BABF 1px solid; FONT-FAMILY: Tahoma; POSITION: relative; HEIGHT: 2.25em; WIDTH: 95%; BACKGROUND-COLOR: #7BA7C7}
-a.dsphead1 span.dspchar{font-family:monospace;font-weight:normal;}
-td {VERTICAL-ALIGN: TOP; FONT-FAMILY: Tahoma}
-th {VERTICAL-ALIGN: TOP; COLOR: #CC0000; TEXT-ALIGN: left}
-BODY {margin-left: 4pt} 
-BODY {margin-right: 4pt} 
-BODY {margin-top: 6pt} 
+:root {
+  --bg-color: #1e1e1e;
+  --text-color: #e6e6e6;
+  --header-bg: #0078d4;
+  --header-color: #ffffff;
+  --section-bg: #2d2d2d;
+  --section-alt-bg: #333333;
+  --border-color: #444444;
+  --link-color: #4dc9ff;
+  --highlight: #0078d4;
+  --warning-color: #ff8c00;
+  --error-color: #ff5252;
+  --tab-bg: #2a2a2a;
+  --tab-active-bg: #333333;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  margin: 0;
+  padding: 20px;
+}
+
+.report-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #252525;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.report-header {
+  margin-bottom: 20px;
+  border-bottom: 2px solid var(--header-bg);
+  padding-bottom: 10px;
+}
+
+.report-title {
+  font-size: 28px;
+  color: var(--header-bg);
+  margin-bottom: 5px;
+}
+
+.report-meta {
+  font-size: 12px;
+  color: #b0b0b0;
+  margin-bottom: 10px;
+}
+
+/* Tab navigation */
+.tab-navigation {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.tab-button {
+  background-color: var(--tab-bg);
+  color: var(--text-color);
+  border: none;
+  padding: 12px 24px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  border-radius: 5px 5px 0 0;
+  margin-right: 4px;
+  margin-bottom: -2px;
+}
+
+.tab-button:hover {
+  background-color: var(--tab-active-bg);
+}
+
+.tab-button.active {
+  background-color: var(--tab-active-bg);
+  color: var(--link-color);
+  border-bottom: 2px solid var(--highlight);
+}
+
+/* Tab content */
+.tab-content {
+  display: none;
+  animation: fadeIn 0.3s ease-in;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.tab-pane {
+  padding: 20px;
+  background-color: var(--section-bg);
+  border-radius: 0 0 8px 8px;
+}
+
+.filler {
+  display: block;
+  height: 8px;
+}
+
+.save {
+  behavior: url(#default#savehistory);
+}
+
+/* Section styling */
+.dsphead0 {
+  display: none;
+}
+
+.section-header {
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--link-color);
+  margin-bottom: 15px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+a.dsphead1, a.dsphead2 {
+  display: block;
+  padding: 10px 15px;
+  margin-bottom: 8px;
+  background-color: #333333;
+  color: var(--text-color);
+  font-weight: bold;
+  font-size: 16px;
+  border-radius: 5px;
+  text-decoration: none;
+  position: relative;
+  border-left: 4px solid var(--highlight);
+  transition: background-color 0.2s ease;
+}
+
+a.dsphead1:hover, a.dsphead2:hover {
+  background-color: #3a3a3a;
+}
+
+.expando {
+  position: absolute;
+  right: 15px;
+  color: var(--link-color);
+  font-size: 14px;
+  text-decoration: none;
+}
+
+/* Content styling */
+.dspcont {
+  display: none;
+  padding: 15px;
+  margin: 0 0 15px 10px;
+  background-color: #2a2a2a;
+  border-radius: 5px;
+  border-left: 4px solid #444;
+}
+
+/* Table styling */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+th {
+  background-color: #333;
+  color: var(--link-color);
+  text-align: left;
+  padding: 12px 15px;
+  font-size: 14px;
+  font-weight: 600;
+  border-bottom: 2px solid #444;
+}
+
+td {
+  padding: 10px 15px;
+  border-bottom: 1px solid #3a3a3a;
+  font-size: 14px;
+  vertical-align: top;
+}
+
+tr:nth-child(even) {
+  background-color: #2a2a2a;
+}
+
+tr:hover {
+  background-color: #303030;
+}
+
+/* Detail tables */
+table.details {
+  margin-bottom: 15px;
+}
+
+table.details th {
+  width: 25%;
+}
+
+/* States */
+.warning {
+  color: var(--warning-color);
+}
+
+.error {
+  color: var(--error-color);
+}
+
+.ok {
+  color: #4caf50;
+}
+
+@media (max-width: 768px) {
+  body {
+    padding: 10px;
+  }
+  
+  .report-container {
+    padding: 10px;
+  }
+  
+  th, td {
+    padding: 8px 10px;
+  }
+  
+  .tab-button {
+    padding: 10px 16px;
+    font-size: 12px;
+  }
+}
 </style>
 
-
 <script type="text/javascript">
+var tabCounter = 0;
+var tabMap = {};
+
+function switchTab(tabName) {
+  var i, tabContent, tabButtons;
+  
+  tabContent = document.getElementsByClassName("tab-content");
+  for (i = 0; i < tabContent.length; i++) {
+    tabContent[i].className = tabContent[i].className.replace(" active", "");
+  }
+  
+  tabButtons = document.getElementsByClassName("tab-button");
+  for (i = 0; i < tabButtons.length; i++) {
+    tabButtons[i].className = tabButtons[i].className.replace(" active", "");
+  }
+  
+  document.getElementById(tabName).className += " active";
+  document.getElementById(tabName + "-btn").className += " active";
+}
+
 function dsp(loc){
    if(document.getElementById){
       var foc=loc.firstChild;
@@ -61,56 +309,64 @@ if(!document.getElementById)
 
 </head>
 <body>
-<b><font face="Arial" size="5">$($Header)</font></b><hr size="8" color="#CC0000">
-<font face="Arial" size="1"><b>Version 3 by Alan Renouf virtu-al.net</b></font><br>
-<font face="Arial" size="1">Report created on $(Get-Date)</font>
-<div class="filler"></div>
-<div class="filler"></div>
-<div class="filler"></div>
-<div class="save">
+<div class="report-container">
+  <div class="report-header">
+    <h1 class="report-title">$($Header)</h1>
+    <div class="report-meta">
+      <p><strong>Windows System Audit Report</strong> | Version 3 by Alan Renouf (virtu-al.net)</p>
+      <p>Report created on $(Get-Date)</p>
+    </div>
+  </div>
+  <div class="tab-navigation" id="tabNav">
+  </div>
+  <div class="save">
 "@
 Return $Report
 }
 
 Function Get-CustomHeader0 ($Title){
 $Report = @"
-		<h1><a class="dsphead0">$($Title)</a></h1>
-	<div class="filler"></div>
+    <script type="text/javascript">
+    tabCounter++;
+    var tabId = 'tab' + tabCounter;
+    tabMap['$($Title)'] = tabId;
+    document.getElementById('tabNav').innerHTML += '<button class="tab-button' + (tabCounter === 1 ? ' active' : '') + '" id="' + tabId + '-btn" onclick="switchTab(\'' + tabId + '\')">$($Title)</button>';
+    document.write('<div id="' + tabId + '" class="tab-content' + (tabCounter === 1 ? ' active' : '') + '"><div class="tab-pane">');
+    </script>
 "@
 Return $Report
 }
 
 Function Get-CustomHeader ($Num, $Title){
 $Report = @"
-	<h2><a href="javascript:void(0)" class="dsphead$($Num)" onclick="dsp(this)">
-	<span class="expando">show</span>$($Title)</a></h2>
-	<div class="dspcont">
+    <h2><a href="javascript:void(0)" class="dsphead$($Num)" onclick="dsp(this)">
+    <span class="expando">show</span>$($Title)</a></h2>
+    <div class="dspcont">
 "@
 Return $Report
 }
 
 Function Get-CustomHeaderClose{
-
-	$Report = @"
-		</DIV>
-		<div class="filler"></div>
+$Report = @"
+    </DIV>
+    <div class="filler"></div>
 "@
 Return $Report
 }
 
 Function Get-CustomHeader0Close{
-
-	$Report = @"
-</DIV>
+$Report = @"
+    <script type="text/javascript">
+    document.write('</div></div>');
+    </script>
 "@
 Return $Report
 }
 
 Function Get-CustomHTMLClose{
-
-	$Report = @"
+$Report = @"
+  </div>
 </div>
-
 </body>
 </html>
 "@
@@ -131,11 +387,11 @@ Function Get-HTMLTable{
 
 Function Get-HTMLDetail ($Heading, $Detail){
 $Report = @"
-<TABLE>
-	<tr>
-	<th width='25%'><b>$Heading</b></font></th>
-	<td width='75%'>$($Detail)</td>
-	</tr>
+<TABLE class="details">
+    <tr>
+    <th width='25%'><b>$Heading</b></th>
+    <td width='75%'>$($Detail)</td>
+    </tr>
 </TABLE>
 "@
 Return $Report
@@ -260,8 +516,9 @@ Write-Output "Collating Detail for $Target"
 	{ $keyb = "Unknown"
 	}
 	$MyReport = Get-CustomHTML "$Target Audit"
-	$MyReport += Get-CustomHeader0  "$Target Details"
-	$MyReport += Get-CustomHeader "2" "General"
+	# System Information Tab
+	$MyReport += Get-CustomHeader0 "System Information"
+		$MyReport += "<div class='section-header'>General Information</div>"
 		$MyReport += Get-HTMLDetail "Computer Name" ($ComputerSystem.Name)
 		$MyReport += Get-HTMLDetail "Computer Role" ($ComputerRole)
 		$MyReport += Get-HTMLDetail $CompType ($ComputerSystem.Domain)
@@ -275,181 +532,190 @@ Write-Output "Collating Detail for $Target"
 		$MyReport += Get-HTMLDetail "Registered User" ($ComputerSystem.PrimaryOwnerName)
 		$MyReport += Get-HTMLDetail "Registered Organisation" ($OperatingSystems.Organization)
 		$MyReport += Get-HTMLDetail "Last System Boot" ($LBTime)
-		$MyReport += Get-CustomHeaderClose
+		
+		$MyReport += "<div class='section-header'>Regional Settings</div>"
+		$MyReport += Get-HTMLDetail "Time Zone" ($TimeZone.Description)
+		$MyReport += Get-HTMLDetail "Country Code" ($OperatingSystems.Countrycode)
+		$MyReport += Get-HTMLDetail "Locale" ($OperatingSystems.Locale)
+		$MyReport += Get-HTMLDetail "Operating System Language" ($OperatingSystems.OSLanguage)
+		$MyReport += Get-HTMLDetail "Keyboard Layout" ($keyb)
+		
 		Write-Output "..Hotfix Information"
 		$colQuickFixes = Get-WmiObject Win32_QuickFixEngineering
-		$MyReport += Get-CustomHeader "2" "HotFixes"
-			$MyReport += Get-HTMLTable ($colQuickFixes | Where {$_.HotFixID -ne "File 1" } |Select HotFixID, Description)
-		$MyReport += Get-CustomHeaderClose
+		$MyReport += "<div class='section-header'>Installed Hotfixes</div>"
+		$MyReport += Get-HTMLTable ($colQuickFixes | Where {$_.HotFixID -ne "File 1" } |Select HotFixID, Description)
+	$MyReport += Get-CustomHeader0Close
+	# Hardware Tab
+	$MyReport += Get-CustomHeader0 "Hardware"
 		Write-Output "..Logical Disks"
 		$Disks = Get-WmiObject -ComputerName $Target Win32_LogicalDisk
-		$MyReport += Get-CustomHeader "2" "Logical Disk Configuration"
-			$LogicalDrives = @()
-			Foreach ($LDrive in ($Disks | Where {$_.DriveType -eq 3})){
-				$Details = "" | Select "Drive Letter", Label, "File System", "Disk Size (MB)", "Disk Free Space", "% Free Space"
-				$Details."Drive Letter" = $LDrive.DeviceID
-				$Details.Label = $LDrive.VolumeName
-				$Details."File System" = $LDrive.FileSystem
-				$Details."Disk Size (MB)" = [math]::round(($LDrive.size / 1MB))
-				$Details."Disk Free Space" = [math]::round(($LDrive.FreeSpace / 1MB))
-				$Details."% Free Space" = [Math]::Round(($LDrive.FreeSpace /1MB) / ($LDrive.Size / 1MB) * 100)
-				$LogicalDrives += $Details
-			}
-			$MyReport += Get-HTMLTable ($LogicalDrives)
-		$MyReport += Get-CustomHeaderClose
+		$MyReport += "<div class='section-header'>Logical Disk Configuration</div>"
+		$LogicalDrives = @()
+		Foreach ($LDrive in ($Disks | Where {$_.DriveType -eq 3})){
+			$Details = "" | Select "Drive Letter", Label, "File System", "Disk Size (MB)", "Disk Free Space", "% Free Space"
+			$Details."Drive Letter" = $LDrive.DeviceID
+			$Details.Label = $LDrive.VolumeName
+			$Details."File System" = $LDrive.FileSystem
+			$Details."Disk Size (MB)" = [math]::round(($LDrive.size / 1MB))
+			$Details."Disk Free Space" = [math]::round(($LDrive.FreeSpace / 1MB))
+			$Details."% Free Space" = [Math]::Round(($LDrive.FreeSpace /1MB) / ($LDrive.Size / 1MB) * 100)
+			$LogicalDrives += $Details
+		}
+		$MyReport += Get-HTMLTable ($LogicalDrives)
+		
+		Write-Output "..Printers"
+		$InstalledPrinters =  Get-WmiObject -ComputerName $Target Win32_Printer
+		$MyReport += "<div class='section-header'>Installed Printers</div>"
+		$MyReport += Get-HTMLTable ($InstalledPrinters | Select Name, Location)
+	$MyReport += Get-CustomHeader0Close
+	# Network Tab
+	$MyReport += Get-CustomHeader0 "Network"
 		Write-Output "..Network Configuration"
 		$Adapters = Get-WmiObject -ComputerName $Target Win32_NetworkAdapterConfiguration
-		$MyReport += Get-CustomHeader "2" "NIC Configuration"
-			$IPInfo = @()
-			Foreach ($Adapter in ($Adapters | Where {$_.IPEnabled -eq $True})) {
-				$Details = "" | Select Description, "Physical address", "IP Address / Subnet Mask", "Default Gateway", "DHCP Enabled", DNS, WINS
-				$Details.Description = "$($Adapter.Description)"
-				$Details."Physical address" = "$($Adapter.MACaddress)"
-				If ($Adapter.IPAddress -ne $Null) {
-				$Details."IP Address / Subnet Mask" = "$($Adapter.IPAddress)/$($Adapter.IPSubnet)"
-					$Details."Default Gateway" = "$($Adapter.DefaultIPGateway)"
-				}
-				If ($Adapter.DHCPEnabled -eq "True")	{
-					$Details."DHCP Enabled" = "Yes"
-				}
-				Else {
-					$Details."DHCP Enabled" = "No"
-				}
-				If ($Adapter.DNSServerSearchOrder -ne $Null)	{
-					$Details.DNS =  "$($Adapter.DNSServerSearchOrder)"
-				}
-				$Details.WINS = "$($Adapter.WINSPrimaryServer) $($Adapter.WINSSecondaryServer)"
-				$IPInfo += $Details
+		$MyReport += "<div class='section-header'>Network Interface Configuration</div>"
+		$IPInfo = @()
+		Foreach ($Adapter in ($Adapters | Where {$_.IPEnabled -eq $True})) {
+			$Details = "" | Select Description, "Physical address", "IP Address / Subnet Mask", "Default Gateway", "DHCP Enabled", DNS, WINS
+			$Details.Description = "$($Adapter.Description)"
+			$Details."Physical address" = "$($Adapter.MACaddress)"
+			If ($Adapter.IPAddress -ne $Null) {
+			$Details."IP Address / Subnet Mask" = "$($Adapter.IPAddress)/$($Adapter.IPSubnet)"
+				$Details."Default Gateway" = "$($Adapter.DefaultIPGateway)"
 			}
-			$MyReport += Get-HTMLTable ($IPInfo)
-		$MyReport += Get-CustomHeaderClose
+			If ($Adapter.DHCPEnabled -eq "True")	{
+				$Details."DHCP Enabled" = "Yes"
+			}
+			Else {
+				$Details."DHCP Enabled" = "No"
+			}
+			If ($Adapter.DNSServerSearchOrder -ne $Null)	{
+				$Details.DNS =  "$($Adapter.DNSServerSearchOrder)"
+			}
+			$Details.WINS = "$($Adapter.WINSPrimaryServer) $($Adapter.WINSSecondaryServer)"
+			$IPInfo += $Details
+		}
+		$MyReport += Get-HTMLTable ($IPInfo)
+		
+		Write-Output "..Local Shares"
+		$Shares = Get-wmiobject -ComputerName $Target Win32_Share
+		$MyReport += "<div class='section-header'>Local Shares</div>"
+		$MyReport += Get-HTMLTable ($Shares | Select Name, Path, Caption)
+	$MyReport += Get-CustomHeader0Close
+	# Software Tab
+	$MyReport += Get-CustomHeader0 "Software"
 		If ((get-wmiobject -ComputerName $Target -namespace "root/cimv2" -list) | Where-Object {$_.name -match "Win32_Product"})
 		{
 			Write-Output "..Software"
-			$MyReport += Get-CustomHeader "2" "Software"
-				$MyReport += Get-HTMLTable (get-wmiobject -ComputerName $Target Win32_Product | select Name,Version,Vendor,InstallDate)
-			$MyReport += Get-CustomHeaderClose
+			$MyReport += "<div class='section-header'>Installed Software</div>"
+			$MyReport += Get-HTMLTable (get-wmiobject -ComputerName $Target Win32_Product | select Name,Version,Vendor,InstallDate)
 		}
 		Else {
 			Write-Output "..Software WMI class not installed"
+			$MyReport += "<div class='section-header'>Installed Software</div>"
+			$MyReport += "<p>Software information not available (WMI class not installed)</p>"
 		}
-		Write-Output "..Local Shares"
-		$Shares = Get-wmiobject -ComputerName $Target Win32_Share
-		$MyReport += Get-CustomHeader "2" "Local Shares"
-			$MyReport += Get-HTMLTable ($Shares | Select Name, Path, Caption)
-		$MyReport += Get-CustomHeaderClose
-		Write-Output "..Printers"
-		$InstalledPrinters =  Get-WmiObject -ComputerName $Target Win32_Printer
-		$MyReport += Get-CustomHeader "2" "Printers"
-			$MyReport += Get-HTMLTable ($InstalledPrinters | Select Name, Location)
-		$MyReport += Get-CustomHeaderClose
+	$MyReport += Get-CustomHeader0Close
+	# Services Tab
+	$MyReport += Get-CustomHeader0 "Services"
 		Write-Output "..Services"
 		$ListOfServices = Get-WmiObject -ComputerName $Target Win32_Service
-		$MyReport += Get-CustomHeader "2" "Services"
-			$Services = @()
-			Foreach ($Service in $ListOfServices){
-				$Details = "" | Select Name,Account,"Start Mode",State,"Expected State"
-				$Details.Name = $Service.Caption
-				$Details.Account = $Service.Startname
-				$Details."Start Mode" = $Service.StartMode
+		$MyReport += "<div class='section-header'>Windows Services</div>"
+		$Services = @()
+		Foreach ($Service in $ListOfServices){
+			$Details = "" | Select Name,Account,"Start Mode",State,"Expected State"
+			$Details.Name = $Service.Caption
+			$Details.Account = $Service.Startname
+			$Details."Start Mode" = $Service.StartMode
+			If ($Service.StartMode -eq "Auto")
+				{
+					if ($Service.State -eq "Stopped")
+					{
+						$Details.State = $Service.State
+						$Details."Expected State" = "Unexpected"
+					}
+				}
 				If ($Service.StartMode -eq "Auto")
-					{
-						if ($Service.State -eq "Stopped")
-						{
-							$Details.State = $Service.State
-							$Details."Expected State" = "Unexpected"
-						}
-					}
-					If ($Service.StartMode -eq "Auto")
-					{
-						if ($Service.State -eq "Running")
-						{
-							$Details.State = $Service.State
-							$Details."Expected State" = "OK"
-						}
-					}
-					If ($Service.StartMode -eq "Disabled")
-					{
-						If ($Service.State -eq "Running")
-						{
-							$Details.State = $Service.State
-							$Details."Expected State" = "Unexpected"
-						}
-					}
-					If ($Service.StartMode -eq "Disabled")
-					{
-						if ($Service.State -eq "Stopped")
-						{
-							$Details.State = $Service.State
-							$Details."Expected State" = "OK"
-						}
-					}
-					If ($Service.StartMode -eq "Manual")
+				{
+					if ($Service.State -eq "Running")
 					{
 						$Details.State = $Service.State
 						$Details."Expected State" = "OK"
 					}
-					If ($Service.State -eq "Paused")
+				}
+				If ($Service.StartMode -eq "Disabled")
+				{
+					If ($Service.State -eq "Running")
+					{
+						$Details.State = $Service.State
+						$Details."Expected State" = "Unexpected"
+					}
+				}
+				If ($Service.StartMode -eq "Disabled")
+				{
+					if ($Service.State -eq "Stopped")
 					{
 						$Details.State = $Service.State
 						$Details."Expected State" = "OK"
 					}
-				$Services += $Details
-			}
-			$MyReport += Get-HTMLTable ($Services)
-		$MyReport += Get-CustomHeaderClose
-		$MyReport += Get-CustomHeader "2" "Regional Settings"
-			$MyReport += Get-HTMLDetail "Time Zone" ($TimeZone.Description)
-			$MyReport += Get-HTMLDetail "Country Code" ($OperatingSystems.Countrycode)
-			$MyReport += Get-HTMLDetail "Locale" ($OperatingSystems.Locale)
-			$MyReport += Get-HTMLDetail "Operating System Language" ($OperatingSystems.OSLanguage)
-			$MyReport += Get-HTMLDetail "Keyboard Layout" ($keyb)
-		$MyReport += Get-CustomHeaderClose
+				}
+				If ($Service.StartMode -eq "Manual")
+				{
+					$Details.State = $Service.State
+					$Details."Expected State" = "OK"
+				}
+				If ($Service.State -eq "Paused")
+				{
+					$Details.State = $Service.State
+					$Details."Expected State" = "OK"
+				}
+			$Services += $Details
+		}
+		$MyReport += Get-HTMLTable ($Services)
+	$MyReport += Get-CustomHeader0Close
+	
+	# Event Logs Tab
+	$MyReport += Get-CustomHeader0 "Event Logs"
 		Write-Output "..Event Log Settings"
 		$LogFiles = Get-WmiObject -ComputerName $Target Win32_NTEventLogFile
-		$MyReport += Get-CustomHeader "2" "Event Logs"
-			$MyReport += Get-CustomHeader "2" "Event Log Settings"
-			$LogSettings = @()
-			Foreach ($Log in $LogFiles){
-				$Details = "" | Select "Log Name", "Overwrite Outdated Records", "Maximum Size (KB)", "Current Size (KB)"
-				$Details."Log Name" = $Log.LogFileName
-				If ($Log.OverWriteOutdated -lt 0)
-					{
-						$Details."Overwrite Outdated Records" = "Never"
-					}
-				if ($Log.OverWriteOutdated -eq 0)
+		$MyReport += "<div class='section-header'>Event Log Settings</div>"
+		$LogSettings = @()
+		Foreach ($Log in $LogFiles){
+			$Details = "" | Select "Log Name", "Overwrite Outdated Records", "Maximum Size (KB)", "Current Size (KB)"
+			$Details."Log Name" = $Log.LogFileName
+			If ($Log.OverWriteOutdated -lt 0)
 				{
-					$Details."Overwrite Outdated Records" = "As needed"
+					$Details."Overwrite Outdated Records" = "Never"
 				}
-				Else
-				{
-					$Details."Overwrite Outdated Records" = "After $($Log.OverWriteOutdated) days"
-				}
-				$MaxFileSize = ($Log.MaxFileSize) / 1024
-				$FileSize = ($Log.FileSize) / 1024
-				
-				$Details."Maximum Size (KB)" = $MaxFileSize
-				$Details."Current Size (KB)" = $FileSize
-				$LogSettings += $Details
+			if ($Log.OverWriteOutdated -eq 0)
+			{
+				$Details."Overwrite Outdated Records" = "As needed"
 			}
-			$MyReport += Get-HTMLTable ($LogSettings)
-			$MyReport += Get-CustomHeaderClose
-			Write-Output "..Event Log Errors"
-			$WmidtQueryDT = [System.Management.ManagementDateTimeConverter]::ToDmtfDateTime([DateTime]::Now.AddDays(-14))
-			$LoggedErrors = Get-WmiObject -computer $Target -query ("Select * from Win32_NTLogEvent Where Type='Error' and TimeWritten >='" + $WmidtQueryDT + "'")
-			$MyReport += Get-CustomHeader "2" "ERROR Entries"
-				$MyReport += Get-HTMLTable ($LoggedErrors | Select EventCode, SourceName, @{N="Time";E={$_.ConvertToDateTime($_.TimeWritten)}}, LogFile, Message)
-			$MyReport += Get-CustomHeaderClose
-			Write-Output "..Event Log Warnings"
-			$WmidtQueryDT = [System.Management.ManagementDateTimeConverter]::ToDmtfDateTime([DateTime]::Now.AddDays(-14))
-			$LoggedWarning = Get-WmiObject -computer $Target -query ("Select * from Win32_NTLogEvent Where Type='Warning' and TimeWritten >='" + $WmidtQueryDT + "'")
-			$MyReport += Get-CustomHeader "2" "WARNING Entries"
-				$MyReport += Get-HTMLTable ($LoggedWarning | Select EventCode, SourceName, @{N="Time";E={$_.ConvertToDateTime($_.TimeWritten)}}, LogFile, Message)
-			$MyReport += Get-CustomHeaderClose
-		$MyReport += Get-CustomHeaderClose
-		$MyReport += Get-CustomHeaderClose
+			Else
+			{
+				$Details."Overwrite Outdated Records" = "After $($Log.OverWriteOutdated) days"
+			}
+			$MaxFileSize = ($Log.MaxFileSize) / 1024
+			$FileSize = ($Log.FileSize) / 1024
+			
+			$Details."Maximum Size (KB)" = $MaxFileSize
+			$Details."Current Size (KB)" = $FileSize
+			$LogSettings += $Details
+		}
+		$MyReport += Get-HTMLTable ($LogSettings)
+		
+		Write-Output "..Event Log Errors"
+		$WmidtQueryDT = [System.Management.ManagementDateTimeConverter]::ToDmtfDateTime([DateTime]::Now.AddDays(-14))
+		$LoggedErrors = Get-WmiObject -computer $Target -query ("Select * from Win32_NTLogEvent Where Type='Error' and TimeWritten >='" + $WmidtQueryDT + "'")
+		$MyReport += "<div class='section-header'>Error Events (Last 14 Days)</div>"
+		$MyReport += Get-HTMLTable ($LoggedErrors | Select EventCode, SourceName, @{N="Time";E={$_.ConvertToDateTime($_.TimeWritten)}}, LogFile, Message)
+		
+		Write-Output "..Event Log Warnings"
+		$WmidtQueryDT = [System.Management.ManagementDateTimeConverter]::ToDmtfDateTime([DateTime]::Now.AddDays(-14))
+		$LoggedWarning = Get-WmiObject -computer $Target -query ("Select * from Win32_NTLogEvent Where Type='Warning' and TimeWritten >='" + $WmidtQueryDT + "'")
+		$MyReport += "<div class='section-header'>Warning Events (Last 14 Days)</div>"
+		$MyReport += Get-HTMLTable ($LoggedWarning | Select EventCode, SourceName, @{N="Time";E={$_.ConvertToDateTime($_.TimeWritten)}}, LogFile, Message)
 	$MyReport += Get-CustomHeader0Close
-	$MyReport += Get-CustomHTMLClose
+	
 	$MyReport += Get-CustomHTMLClose
 
 	$Date = Get-Date
